@@ -1,6 +1,7 @@
 import { parseStringPromise } from "xml2js";
 import { BlogFeedItem, FeedItem, FeedType, YouTubeFeedItem } from "./feed-item";
 import { BLOG_FEEDS, YOUTUBE_FEEDS } from "./rss-sources";
+import { subDays } from "date-fns";
 
 export const getContent = () => {
   const getAllContent = async () => {
@@ -32,7 +33,7 @@ export const getContent = () => {
 
 const fetchFeed = async (url: string) => {
   try {
-    const response = await fetch(url, { next: { revalidate: 18000 } });
+    const response = await fetch(url);
     return response.text();
   } catch (error) {
     console.error("Error fetching the RSS feed:", error);
@@ -69,17 +70,20 @@ const fetchAndDisplayRssFeed = async (
 const extractBlogFeedItems = async (
   parsedData: any
 ): Promise<BlogFeedItem[]> => {
-  const items = parsedData.rss.channel[0].item.map(
+  const items: BlogFeedItem[] = parsedData.rss.channel[0].item.map(
     (item: any): BlogFeedItem => ({
       title: item.title[0],
       link: item.link[0],
-      pubDate: item.pubDate[0],
+      pubDate: new Date(item.pubDate[0]),
       description: item.description[0],
       feedType: FeedType.blog,
     })
   );
+  const filtered = items.filter(
+    (item) => item.pubDate > subDays(new Date(), 7)
+  );
 
-  return items;
+  return filtered;
 };
 
 const extractYoutubeFeedItems = async (
@@ -94,16 +98,20 @@ const extractYoutubeFeedItems = async (
   */
   parsedData: any
 ): Promise<YouTubeFeedItem[]> => {
-  const items = parsedData.feed.entry.map(
+  const items: YouTubeFeedItem[] = parsedData.feed.entry.map(
     (item: any): YouTubeFeedItem => ({
       title: item.title[0],
       link: item.link[0],
-      published: item.published[0],
-      description: item['media:group'][0]['media:description'][0],
-      thumbnail: item['media:group'][0]['media:thumbnail'][0]['$'].url,
+      published: new Date(item.published[0]),
+      description: item["media:group"][0]["media:description"][0],
+      thumbnail: item["media:group"][0]["media:thumbnail"][0]["$"].url,
       feedType: FeedType.youtube,
     })
   );
 
-  return items;
+  const filtered = items.filter(
+    (item) => item.published > subDays(new Date(), 7)
+  );
+  
+  return filtered;
 };
