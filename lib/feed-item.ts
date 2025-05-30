@@ -16,6 +16,7 @@ export interface FeedItem {
       public feedType: FeedType,  
       public description?: string,     // <media:description>
       public thumbnail?: string, // <media:thumbnail url="…">
+      public views?: string
     ) {}
   }
   

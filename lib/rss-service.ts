@@ -101,11 +101,12 @@ const extractYoutubeFeedItems = async (
   const items: YouTubeFeedItem[] = parsedData.feed.entry.map(
     (item: any): YouTubeFeedItem => ({
       title: item.title[0],
-      link: item.link[0],
+      link: item.link[0].$.href,
       published: new Date(item.published[0]),
       description: item["media:group"][0]["media:description"][0],
-      thumbnail: item["media:group"][0]["media:thumbnail"][0]["$"].url,
+      thumbnail: item["media:group"][0]["media:thumbnail"][0].$.url,
       feedType: FeedType.youtube,
+      views: item['media:group'][0]['media:community'][0]['media:statistics'][0].$.views
     })
   );
 

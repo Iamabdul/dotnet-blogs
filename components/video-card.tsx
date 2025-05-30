@@ -13,13 +13,11 @@ import {
 interface VideoCardProps {
   content: FeedItem;
   views?: string;
-  duration?: string;
 }
 
 export function VideoCard({
   content,
   views,
-  duration,
 }: Readonly<VideoCardProps>) {
   const contentDate =
     content.feedType === FeedType.youtube
@@ -36,7 +34,7 @@ export function VideoCard({
     `/placeholder.svg?height=200&width=400&query=${encodeURIComponent(
       content.title
     )}`;
-
+console.log(content);
   return (
     <Card className="overflow-hidden h-full hover:shadow-md transition-shadow duration-200">
       <div className="relative">
@@ -59,15 +57,6 @@ export function VideoCard({
             className="bg-red-500 text-white border-none text-xs"
           >
             Video
-          </Badge>
-        </div>
-        <div className="absolute bottom-2 right-2">
-          <Badge
-            variant="secondary"
-            className="bg-black bg-opacity-70 text-white border-none text-xs"
-          >
-            <Clock className="h-3 w-3 mr-1" />
-            {duration}
           </Badge>
         </div>
         <div className="absolute bottom-2 left-2">

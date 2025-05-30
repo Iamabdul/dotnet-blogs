@@ -7,7 +7,17 @@ import { VideoCard } from "@/components/video-card";
 import { BlogCard } from "@/components/blog-card";
 import { FeaturedArticle } from "@/components/featured-article";
 import { getContent } from "@/lib/rss-service";
-import { BlogFeedItem, FeedType, YouTubeFeedItem } from "@/lib/feed-item";
+import { BlogFeedItem, FeedItem, FeedType, YouTubeFeedItem } from "@/lib/feed-item";
+
+  const getDateFrom = (item: FeedItem) => item.feedType === FeedType.youtube
+        ? (item as YouTubeFeedItem).published
+        : (item as BlogFeedItem).pubDate;
+
+  const getLatestDate = (feedItemA: FeedItem, feedItemB: FeedItem) => {
+        const dateA = getDateFrom(feedItemA);
+        const dateB = getDateFrom(feedItemB);
+        return new Date(dateB).getTime() - new Date(dateA).getTime();
+  }
 
 export default async function Home() {
   // Fetch content on the server
@@ -16,35 +26,22 @@ export default async function Home() {
   const allContent = await getAllContent();
 
   // Sort by date (newest first)
-  allContent.sort((a, b) => {
-    const dateA =
-      a.feedType === FeedType.youtube
-        ? (a as YouTubeFeedItem).published
-        : (a as BlogFeedItem).pubDate;
-
-    const dateB =
-      b.feedType === FeedType.youtube
-        ? (b as YouTubeFeedItem).published
-        : (b as BlogFeedItem).pubDate;
-    return new Date(dateB).getTime() - new Date(dateA).getTime();
-  });
+  allContent.sort(getLatestDate);
 
   // Get videos and blogs
   const videos = allContent.filter(
     (item) => item.feedType === FeedType.youtube
-  );
+  ) as YouTubeFeedItem[];
   const blogs = allContent.filter((item) => item.feedType === FeedType.blog);
 
   // Get featured content (first blog with most recent date)
-  const featuredContent = blogs.length > 0 ? blogs[0] : null;
+  const latestBlog = blogs[0];
+  const latestVideo = videos[0];
 
-  // Generate random view counts and durations for videos
-  const getRandomViews = () =>
-    `${Math.floor(Math.random() * 5 + 1)}.${Math.floor(Math.random() * 9)}k`;
-  const getRandomDuration = () =>
-    `${Math.floor(Math.random() * 30 + 5)}:${Math.floor(Math.random() * 59)
-      .toString()
-      .padStart(2, "0")}`;
+  const latestBlogDate = latestBlog && getDateFrom(latestBlog);
+  const latestVideoDate = latestVideo && getDateFrom(latestVideo);
+
+  const featuredContent = latestBlogDate > latestVideoDate ? latestBlog : latestVideo;
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-4">
@@ -70,8 +67,7 @@ export default async function Home() {
                 <VideoCard
                   key={`${video.link}-${index}`}
                   content={video}
-                  views={getRandomViews()}
-                  duration={getRandomDuration()}
+                  views={video.views}
                 />
               ))}
             </div>
@@ -82,8 +78,7 @@ export default async function Home() {
                 <VideoCard
                   key={`${video.link}-${index}`}
                   content={video}
-                  views={getRandomViews()}
-                  duration={getRandomDuration()}
+                  views={video.views}
                 />
               ))}
               {blogs.slice(1, 2).map((blog, index) => (
@@ -101,8 +96,7 @@ export default async function Home() {
                 <VideoCard
                   key={`${video.link}-${index}`}
                   content={video}
-                  views={getRandomViews()}
-                  duration={getRandomDuration()}
+                  views={video.views}
                 />
               ))}
             </div>
@@ -124,8 +118,7 @@ export default async function Home() {
                 <VideoCard
                   key={`${video.link}-${index}`}
                   content={video}
-                  views={getRandomViews()}
-                  duration={getRandomDuration()}
+                  views={video.views}
                 />
               ))}
               {blogs.slice(4, 5).map((blog, index) => (

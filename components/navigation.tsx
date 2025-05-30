@@ -16,15 +16,6 @@ export function Navigation() {
             <Search />
           </div>
           <div className="hidden md:flex gap-6 items-center">
-            <Link href="/blogs" className="hover:text-purple-700 transition-colors">
-              Blogs
-            </Link>
-            <Link href="/videos" className="hover:text-purple-700 transition-colors">
-              Videos
-            </Link>
-            <Link href="/about" className="hover:text-purple-700 transition-colors">
-              About
-            </Link>
             <ThemeToggle />
           </div>
           <div className="md:hidden flex items-center">
