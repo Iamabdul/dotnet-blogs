@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: "DNBDN - .NET Development Hub",
   description:
     "Stay updated with the latest .NET development news, tutorials, and videos from the past week.",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({
@@ -22,10 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navigation />
-          <main className="min-h-screen">{children}</main>
+          <main className="flex-grow">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

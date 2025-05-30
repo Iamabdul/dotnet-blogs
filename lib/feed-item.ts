@@ -33,11 +33,6 @@ export interface FeedItem {
 
   export enum FeedType {
     youtube,
-    blog,
-    trending,
-    tips,
-    video,
-    featured,
-    article
+    blog
   }
   
