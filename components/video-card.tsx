@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Clock } from "lucide-react";
+import { Play } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import {
   BlogFeedItem,
@@ -15,10 +15,7 @@ interface VideoCardProps {
   views?: string;
 }
 
-export function VideoCard({
-  content,
-  views,
-}: Readonly<VideoCardProps>) {
+export function VideoCard({ content, views }: Readonly<VideoCardProps>) {
   const contentDate =
     content.feedType === FeedType.youtube
       ? (content as YouTubeFeedItem).published
@@ -34,9 +31,9 @@ export function VideoCard({
     `/placeholder.svg?height=200&width=400&query=${encodeURIComponent(
       content.title
     )}`;
-console.log(content);
+
   return (
-    <Card className="overflow-hidden h-full hover:shadow-md transition-shadow duration-200">
+    <Card className="hover:opacity-40 overflow-hidden h-full hover:shadow-md transition-shadow duration-200">
       <div className="relative">
         <Image
           src={imageSrc || "/placeholder.png"}

@@ -10,10 +10,9 @@ import {
 
 interface BlogCardProps {
   content: FeedItem;
-  tag?: string;
 }
 
-export function BlogCard({ content, tag }: Readonly<BlogCardProps>) {
+export function BlogCard({ content }: Readonly<BlogCardProps>) {
   const contentDate =
     content.feedType === FeedType.youtube
       ? (content as YouTubeFeedItem).published
@@ -31,7 +30,7 @@ export function BlogCard({ content, tag }: Readonly<BlogCardProps>) {
 
 
   return (
-    <Card className="overflow-hidden h-full hover:shadow-md transition-shadow duration-200">
+    <Card className="overflow-hidden h-full hover:opacity-40 transition-shadow duration-200">
       <div className="relative">
         <Image
           src={imageSrc}

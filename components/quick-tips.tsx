@@ -11,7 +11,7 @@ export function QuickTips() {
   ]
 
   return (
-    <Card>
+    <Card className="hover:opacity-40">
       <CardHeader className="pb-1 pt-3 px-3">
         <CardTitle className="text-base sm:text-lg flex items-center text-blue-600">
           <Lightbulb className="mr-2 h-4 w-4" />
