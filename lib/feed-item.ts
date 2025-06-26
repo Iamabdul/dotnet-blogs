@@ -5,6 +5,8 @@ export interface FeedItem {
     description?: string;   // <description> / <media:description>
     thumbnail?: string; 
     feedType: FeedType; 
+    published: Date,
+    views?: string
   }
   
   /** YouTube <entry> with just the core + published */
@@ -25,7 +27,7 @@ export interface FeedItem {
     constructor(
       public title: string,            // <title>
       public link: string,             // <link>
-      public pubDate: Date,          // <pubDate>
+      public published: Date,          // <pubDate>
       public feedType: FeedType,  
       public description?: string,     // <description>
       public thumbnail?: string, // (not typical in blogs, but kept for symmetry)
@@ -33,7 +35,7 @@ export interface FeedItem {
   }
 
   export enum FeedType {
-    youtube,
-    blog
+    youtube = "youtube",
+    blog = "blog"
   }
   

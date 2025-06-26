@@ -3,23 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import {
-  BlogFeedItem,
-  FeedItem,
-  FeedType,
-  YouTubeFeedItem,
-} from "@/lib/feed-item";
+import { YouTubeFeedItem } from "@/lib/feed-item";
 
 interface VideoCardProps {
-  content: FeedItem;
-  views?: string;
+  content: YouTubeFeedItem;
 }
 
-export function VideoCard({ content, views }: Readonly<VideoCardProps>) {
-  const contentDate =
-    content.feedType === FeedType.youtube
-      ? (content as YouTubeFeedItem).published
-      : (content as BlogFeedItem).pubDate;
+export function VideoCard({ content }: Readonly<VideoCardProps>) {
+  const contentDate = content.published;
 
   const formattedDate = formatDistanceToNow(new Date(contentDate), {
     addSuffix: true,
@@ -56,14 +47,16 @@ export function VideoCard({ content, views }: Readonly<VideoCardProps>) {
             Video
           </Badge>
         </div>
-        <div className="absolute bottom-2 left-2">
-          <Badge
-            variant="secondary"
-            className="bg-black bg-opacity-70 text-white border-none text-xs"
-          >
-            {views} views
-          </Badge>
-        </div>
+        {content.views && (
+          <div className="absolute bottom-2 left-2">
+            <Badge
+              variant="secondary"
+              className="bg-black bg-opacity-70 text-white border-none text-xs"
+            >
+              {content.views} views
+            </Badge>
+          </div>
+        )}
       </div>
       <CardContent className="p-3">
         <h3 className="font-medium text-sm sm:text-base mb-1 line-clamp-2">

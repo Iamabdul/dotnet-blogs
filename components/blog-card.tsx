@@ -1,22 +1,14 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
-import {
-  BlogFeedItem,
-  FeedItem,
-  FeedType,
-  YouTubeFeedItem,
-} from "@/lib/feed-item";
+import { BlogFeedItem } from "@/lib/feed-item";
 
 interface BlogCardProps {
-  content: FeedItem;
+  content: BlogFeedItem;
 }
 
 export function BlogCard({ content }: Readonly<BlogCardProps>) {
-  const contentDate =
-    content.feedType === FeedType.youtube
-      ? (content as YouTubeFeedItem).published
-      : (content as BlogFeedItem).pubDate;
+  const contentDate = content.published;
   const formattedDate = formatDistanceToNow(new Date(contentDate), {
     addSuffix: true,
   });
@@ -27,7 +19,6 @@ export function BlogCard({ content }: Readonly<BlogCardProps>) {
     `/placeholder.svg?height=200&width=400&query=${encodeURIComponent(
       content.title
     )}`;
-
 
   return (
     <Card className="overflow-hidden h-full hover:opacity-40 transition-shadow duration-200">
