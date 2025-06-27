@@ -4,7 +4,9 @@ export interface FeedItem {
     link: string;           // <link> / href
     description?: string;   // <description> / <media:description>
     thumbnail?: string; 
-    feedType: FeedType;    // media:thumbnail/@url
+    feedType: FeedType; 
+    published: Date,
+    views?: string
   }
   
   /** YouTube <entry> with just the core + published */
@@ -12,10 +14,11 @@ export interface FeedItem {
     constructor(
       public title: string,            // <title>
       public link: string,             // <link href="…"/>
-      public published: string,       // <published>
+      public published: Date,       // <published>
       public feedType: FeedType,  
       public description?: string,     // <media:description>
       public thumbnail?: string, // <media:thumbnail url="…">
+      public views?: string
     ) {}
   }
   
@@ -24,7 +27,7 @@ export interface FeedItem {
     constructor(
       public title: string,            // <title>
       public link: string,             // <link>
-      public pubDate: string,          // <pubDate>
+      public published: Date,          // <pubDate>
       public feedType: FeedType,  
       public description?: string,     // <description>
       public thumbnail?: string, // (not typical in blogs, but kept for symmetry)
@@ -32,7 +35,7 @@ export interface FeedItem {
   }
 
   export enum FeedType {
-    youtube,
-    blog
+    youtube = "youtube",
+    blog = "blog"
   }
   

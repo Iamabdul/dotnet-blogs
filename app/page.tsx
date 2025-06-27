@@ -1,32 +1,52 @@
 import { Suspense } from "react";
-import { HeroSection } from "@/components/hero-section";
-import { RecentContent } from "@/components/recent-content";
 import { ContentSkeleton } from "@/components/content-skeleton";
-import { getContent } from "@/lib/rss-service";
-import { FeedType } from "@/lib/feed-item";
+
+import { VideoCard } from "@/components/video-card";
+import { BlogCard } from "@/components/blog-card";
+import {
+  BlogFeedItem,
+  FeedItem,
+  YouTubeFeedItem,
+} from "@/lib/feed-item";
+import { readJsonFromBucket } from "@/lib/read-from-bucket";
+
+const getDateFrom = (item: FeedItem) => item.published;
+
+const getLatestDate = (feedItemA: FeedItem, feedItemB: FeedItem) => {
+  const dateA = getDateFrom(feedItemA);
+  const dateB = getDateFrom(feedItemB);
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
+};
+
+const isVideo = (item: FeedItem) => item.feedType === `youtube`;
 
 export default async function Home() {
   // Fetch content on the server
-  const { getAllContent } = getContent();
-  const allContent = await getAllContent();
 
-  // Get recent blogs and videos
-  const recentBlogs = allContent
-    .filter((item) => item.feedType === FeedType.blog)
-    .slice(0, 4);
+  const allContent = await readJsonFromBucket();
 
-  const recentVideos = allContent
-    .filter((item) => item.feedType === FeedType.youtube)
-    .slice(0, 4);
+  // Sort by date (newest first)
+  allContent!.sort(getLatestDate);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <HeroSection />
+    <div className="container mx-auto px-2 sm:px-4 py-4">
       <Suspense fallback={<ContentSkeleton />}>
-        <RecentContent
-          initialBlogs={recentBlogs}
-          initialVideos={recentVideos}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* Main content */}
+          {/* <WhatsHot />
+          <QuickTips /> */}
+          {allContent!.map((item, index) => {
+            if (isVideo(item)) {
+              const video = item as YouTubeFeedItem;
+              return (
+                <VideoCard key={`${video.link}-${index}`} content={video} />
+              );
+            } else {
+              const blog = item as BlogFeedItem;
+              return <BlogCard key={`${item.link}-${index}`} content={blog} />;
+            }
+          })}
+        </div>
       </Suspense>
     </div>
   );

@@ -9,7 +9,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void
 }
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange }: Readonly<PaginationProps>) {
   // Create an array of page numbers to display
   const getPageNumbers = () => {
     const pageNumbers = []
