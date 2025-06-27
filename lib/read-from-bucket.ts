@@ -1,10 +1,11 @@
-// readJsonFromSupabase.ts
+'use server';
+
 import { createClient } from "@supabase/supabase-js";
 import { FeedItem } from "./feed-item";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
 );
 
 export const readJsonFromBucket = async () => {
