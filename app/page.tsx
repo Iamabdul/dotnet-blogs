@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { ContentSkeleton } from "@/components/content-skeleton";
-import { WhatsHot } from "@/components/whats-hot";
-import { QuickTips } from "@/components/quick-tips";
+
 import { VideoCard } from "@/components/video-card";
 import { BlogCard } from "@/components/blog-card";
 import {
@@ -17,13 +16,6 @@ const getLatestDate = (feedItemA: FeedItem, feedItemB: FeedItem) => {
   const dateA = getDateFrom(feedItemA);
   const dateB = getDateFrom(feedItemB);
   return new Date(dateB).getTime() - new Date(dateA).getTime();
-};
-
-const getLatestFeedItem = (feedItemA: FeedItem, feedItemB: FeedItem) => {
-  const dateA = feedItemA && getDateFrom(feedItemA);
-  const dateB = feedItemB && getDateFrom(feedItemB);
-
-  return dateA > dateB ? feedItemA : feedItemB;
 };
 
 const isVideo = (item: FeedItem) => item.feedType === `youtube`;
