@@ -34,14 +34,6 @@ export default function RootLayout({
             }
           />
         </Suspense>
-      </head>
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navigation />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </ThemeProvider>
-        <CookieBanner />
         <ConsentModeScript />
         <Script
           dangerouslySetInnerHTML={{
@@ -50,6 +42,15 @@ export default function RootLayout({
         _iub.csConfiguration = {"siteId":4178340,"cookiePolicyId":57567027,"lang":"en","storage":{"useSiteId":true}};`,
           }}
         ></Script>
+      </head>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </ThemeProvider>
+        <CookieBanner />
+
       </body>
     </html>
   );
