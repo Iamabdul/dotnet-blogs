@@ -9,6 +9,7 @@ import GoogleAnalyticsScript from "./googleAnalyticsScript";
 import CookieBanner from "./cookieBanner";
 import ConsentModeScript from "./consentModeScript";
 import { Suspense } from "react";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,14 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Suspense>
-          <GoogleAnalyticsScript
-            GA_MEASUREMENT_ID={
-              process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID as string
-            }
-          />
-        </Suspense>
-        <ConsentModeScript />
+        <GoogleAnalyticsScript
+          GA_MEASUREMENT_ID={
+            process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID as string
+          }
+        />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -41,7 +39,15 @@ export default function RootLayout({
           <main className="flex-grow">{children}</main>
           <Footer />
         </ThemeProvider>
-        <CookieBanner />
+        {/* <CookieBanner /> */}
+                <ConsentModeScript />
+        <Script
+          dangerouslySetInnerHTML={{
+            __html: `
+        var _iub = _iub || [];
+        _iub.csConfiguration = {"siteId":4178340,"cookiePolicyId":57567027,"lang":"en","storage":{"useSiteId":true}};`,
+          }}
+        ></Script>
       </body>
     </html>
   );

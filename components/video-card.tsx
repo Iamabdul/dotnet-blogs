@@ -32,12 +32,12 @@ export function VideoCard({ content }: Readonly<VideoCardProps>) {
       <Card className="hover:opacity-40 overflow-hidden h-full hover:shadow-md transition-shadow duration-200">
         <div className="relative">
           <Image
+          data-cmp-ab="2"
             src={imageSrc || "/placeholder.png"}
             alt={content.title}
             width={400}
             height={225}
             className="w-full h-36 sm:h-40 object-cover"
-            unoptimized={imageSrc.startsWith("http")}
           />
           <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
             <div className="bg-white bg-opacity-90 rounded-full p-2">

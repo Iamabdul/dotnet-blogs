@@ -4,25 +4,23 @@ import React from "react";
 const ConsentModeScript = () => {
   return (
     <>
-      <script
-        type="text/javascript"
+      <Script
+        strategy="lazyOnload"
+        type="text/javaScript"
         src="https://cs.iubenda.com/autoblocking/4178340.js"
-      ></script>
-      <script
-        type="text/javascript"
+        async
+      ></Script>
+      <Script
+        strategy="lazyOnload"
+        type="text/javaScript"
         src="//cdn.iubenda.com/cs/gpp/stub.js"
-      ></script>
-      <script
-        type="text/javascript"
+        async
+      ></Script>
+      <Script
+        strategy="lazyOnload"
+        type="text/javaScript"
         src="//cdn.iubenda.com/cs/iubenda_cs.js"
         async
-      ></script>
-      <Script
-        dangerouslySetInnerHTML={{
-          __html: `
-        var _iub = _iub || [];
-        _iub.csConfiguration = {"siteId":4178340,"cookiePolicyId":57567027,"lang":"en","storage":{"useSiteId":true}};`,
-        }}
       ></Script>
     </>
   );
