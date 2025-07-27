@@ -21,11 +21,8 @@ const getLatestDate = (feedItemA: FeedItem, feedItemB: FeedItem) => {
 const isVideo = (item: FeedItem) => item.feedType === `youtube`;
 
 export default async function Home() {
-  // Fetch content on the server
-
   const allContent = await readJsonFromBucket();
 
-  // Sort by date (newest first)
   allContent!.sort(getLatestDate);
 
   return (

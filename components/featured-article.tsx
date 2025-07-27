@@ -3,28 +3,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import {
-  BlogFeedItem,
-  FeedItem,
-  FeedType,
-  YouTubeFeedItem,
-} from "@/lib/feed-item";
+import { FeedItem } from "@/lib/feed-item";
 
 interface FeaturedArticleProps {
   content: FeedItem;
 }
 
 export function FeaturedArticle({ content }: Readonly<FeaturedArticleProps>) {
-  const contentDate =
-    content.feedType === FeedType.youtube
-      ? (content as YouTubeFeedItem).published
-      : (content as BlogFeedItem).pubDate;
-
-  const formattedDate = formatDistanceToNow(new Date(contentDate), {
+  const formattedDate = formatDistanceToNow(new Date(content.published), {
     addSuffix: true,
   });
 
-  // Standardized placeholder image approach
   const imageSrc =
     content.thumbnail ??
     `/placeholder.svg?height=400&width=600&query=${encodeURIComponent(
