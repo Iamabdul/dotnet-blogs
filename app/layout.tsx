@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import GoogleAnalyticsScript from "./googleAnalyticsScript";
 import CookieBanner from "./cookieBanner";
 import ConsentModeScript from "./consentModeScript";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <GoogleAnalyticsScript
-          GA_MEASUREMENT_ID={
-            process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID as string
-          }
-        />
+        <Suspense>
+          <GoogleAnalyticsScript
+            GA_MEASUREMENT_ID={
+              process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID as string
+            }
+          />
+        </Suspense>
         <ConsentModeScript />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
