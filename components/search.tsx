@@ -1,52 +1,51 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useTransition } from "react"
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
-import { Input } from "@/components/ui/input"
-import { SearchIcon, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useTransition } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { SearchIcon, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Search() {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
-  const currentQuery = searchParams.get("q") ?? ""
-  const [query, setQuery] = useState(currentQuery)
+  const currentQuery = searchParams.get("q") ?? "";
+  const [query, setQuery] = useState(currentQuery);
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     startTransition(() => {
-      const params = new URLSearchParams(searchParams)
+      const params = new URLSearchParams(searchParams);
 
       if (query) {
-        params.set("q", query)
+        params.set("q", query);
       } else {
-        params.delete("q")
+        params.delete("q");
       }
 
-      // Reset to page 1 when searching
-      params.delete("page")
+      params.delete("page");
 
-      router.push(`${pathname}?${params.toString()}`)
-    })
-  }
+      router.push(`${pathname}?${params.toString()}`);
+    });
+  };
 
   const clearSearch = () => {
-    setQuery("")
+    setQuery("");
 
     startTransition(() => {
-      const params = new URLSearchParams(searchParams)
-      params.delete("q")
-      params.delete("page")
+      const params = new URLSearchParams(searchParams);
+      params.delete("q");
+      params.delete("page");
 
-      router.push(`${pathname}?${params.toString()}`)
-    })
-  }
+      router.push(`${pathname}?${params.toString()}`);
+    });
+  };
 
   return (
     <form onSubmit={handleSearch} className="relative w-full">
@@ -73,5 +72,5 @@ export function Search() {
         </Button>
       )}
     </form>
-  )
+  );
 }

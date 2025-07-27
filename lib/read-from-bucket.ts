@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import { createClient } from "@supabase/supabase-js";
 import { FeedItem } from "./feed-item";
@@ -29,11 +29,11 @@ export const readJsonFromBucket = async () => {
 };
 
 const safeJsonParse = <T>(str: string) => {
-    try {
-      const jsonValue: T = JSON.parse(str);
-  
-      return jsonValue;
-    } catch {
-      return undefined;
-    }
-  };
+  try {
+    const jsonValue: T = JSON.parse(str);
+
+    return jsonValue;
+  } catch {
+    return undefined;
+  }
+};
