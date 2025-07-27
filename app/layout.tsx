@@ -27,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <GoogleAnalyticsScript
-          GA_MEASUREMENT_ID={
-            process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID as string
-          }
-        />
+        <Suspense>
+          <GoogleAnalyticsScript
+            GA_MEASUREMENT_ID={
+              process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID as string
+            }
+          />
+        </Suspense>
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -39,8 +41,8 @@ export default function RootLayout({
           <main className="flex-grow">{children}</main>
           <Footer />
         </ThemeProvider>
-        {/* <CookieBanner /> */}
-                <ConsentModeScript />
+        <CookieBanner />
+        <ConsentModeScript />
         <Script
           dangerouslySetInnerHTML={{
             __html: `
