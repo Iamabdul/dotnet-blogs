@@ -50,7 +50,6 @@ export default function RootLayout({
           <Footer />
         </ThemeProvider>
         <CookieBanner />
-
       </body>
     </html>
   );

@@ -1,21 +1,20 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import { pageview } from "@/lib/gtagHelper";
+import { useEffect, useState } from "react";
 
 export default function GoogleAnalytics({
   GA_MEASUREMENT_ID,
 }: Readonly<{ GA_MEASUREMENT_ID: string }>) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [consent, setConsent] = useState<string | null>(null);
 
   useEffect(() => {
-    const url = pathname + searchParams.toString();
+    setConsent(
+      localStorage.getItem("cookie") === "true" ? "granted" : "denied"
+    );
+  }, [GA_MEASUREMENT_ID]);
 
-    pageview(GA_MEASUREMENT_ID, url);
-  }, [pathname, searchParams, GA_MEASUREMENT_ID]);
+  if (consent === null) return null;
 
   return (
     <>
@@ -33,8 +32,11 @@ export default function GoogleAnalytics({
                 gtag('js', new Date());
 
                 gtag('consent', 'default', {
-                    'analytics_storage': 'denied'
-                });
+                      'ad_storage': 'denied',
+                      'ad_user_data': 'denied',
+                      'ad_personalization': 'denied',
+                      'analytics_storage': 'denied'
+                    });
                 
                 gtag('config', '${GA_MEASUREMENT_ID}', {
                     page_path: window.location.pathname,
