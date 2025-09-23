@@ -21,35 +21,35 @@ export function BlogCard({ content }: Readonly<BlogCardProps>) {
     )}`;
 
   return (
-    <Card className="overflow-hidden h-full hover:opacity-40 transition-shadow duration-200">
-      <div className="relative">
-        <Image
-          src={imageSrc}
-          alt={content.title}
-          width={400}
-          height={200}
-          className="w-full h-36 sm:h-40 object-cover"
-          unoptimized={imageSrc.startsWith("http")}
-        />
-      </div>
-      <CardContent className="p-3">
-        <h3 className="font-medium text-sm sm:text-base mb-1 line-clamp-2">
-          <a
-            href={content.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-purple-600 transition-colors"
-          >
-            {content.title}
-          </a>
-        </h3>
-        <p className="text-xs text-gray-500 mb-1 line-clamp-2">
-          {content.description}
-        </p>
-        <div className="flex items-center justify-between text-xs text-gray-500">
-          <span>{formattedDate}</span>
+    <a
+      href={content.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:text-purple-600 transition-colors"
+    >
+      <Card className="overflow-hidden h-full hover:opacity-40 transition-shadow duration-200">
+        <div className="relative">
+          <Image
+            src={imageSrc}
+            alt={content.title}
+            width={400}
+            height={200}
+            className="w-full h-36 sm:h-40 object-cover"
+            unoptimized={imageSrc.startsWith("http")}
+          />
         </div>
-      </CardContent>
-    </Card>
+        <CardContent className="p-3">
+          <h3 className="font-medium text-sm sm:text-base mb-1 line-clamp-2">
+            {content.title}
+          </h3>
+          <p className="text-xs text-gray-500 mb-1 line-clamp-2">
+            {content.description}
+          </p>
+          <div className="flex items-center justify-between text-xs text-gray-500">
+            <span>{formattedDate}</span>
+          </div>
+        </CardContent>
+      </Card>
+    </a>
   );
 }
